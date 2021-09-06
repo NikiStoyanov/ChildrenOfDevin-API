@@ -14,6 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using children_of_devin_back_end.Data;
+using children_of_devin_back_end.Data.Models;
 
 namespace children_of_devin_back_end
 {
@@ -33,6 +35,11 @@ namespace children_of_devin_back_end
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
 
+            services.AddTransient<IRepository<Need>, Repository<Need>>();
+            services.AddTransient<IRepository<Person>, Repository<Person>>();
+            services.AddTransient<IRepository<Story>, Repository<Story>>();
+            services.AddTransient<IRepository<Suggestion>, Repository<Suggestion>>();
+            
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
