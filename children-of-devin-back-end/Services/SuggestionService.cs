@@ -9,16 +9,16 @@ using Newtonsoft.Json;
 
 namespace children_of_devin_back_end.Services
 {
-    public class NeedService : BaseService<Need>
+    public class SuggestionService : BaseService<Suggestion>
     {
-        public NeedService(ApplicationDbContext db) 
+        public SuggestionService(ApplicationDbContext db) 
             : base(db)
         {
         }
 
-        protected override IQueryable<Need> GetAllInternal()
+        protected override IQueryable<Suggestion> GetAllInternal()
         {
-            return base.GetAllInternal().Include(n => n.Person);
+            return base.GetAllInternal().Include(s => s.Need);
         }
     }
 }

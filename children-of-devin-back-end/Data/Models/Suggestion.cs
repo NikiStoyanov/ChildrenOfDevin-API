@@ -6,20 +6,21 @@ using System.Threading.Tasks;
 
 namespace children_of_devin_back_end.Data.Models
 {
-    public class Suggestion
+    public class Suggestion : BaseEntity
     {
+        public Suggestion()
+        {
+            
+        }
+
         public Suggestion(string volunteerName, string email, string phone, string content, string needId)
         {
-            this.Id = Guid.NewGuid().ToString();
-
             this.VolunteerName = volunteerName;
             this.Email = email;
             this.Phone = phone;
             this.Content = content;
             this.NeedId = needId;
         }
-
-        public string Id { get; set; }
 
         [Required]
         [MaxLength(100)]
@@ -39,6 +40,6 @@ namespace children_of_devin_back_end.Data.Models
         [Required]
         public string NeedId { get; set; }
 
-        public Need Need { get; set; }
+        public virtual Need Need { get; set; }
     }
 }

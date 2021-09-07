@@ -14,8 +14,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using children_of_devin_back_end.Controllers;
 using children_of_devin_back_end.Data;
 using children_of_devin_back_end.Data.Models;
+using children_of_devin_back_end.Services;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace children_of_devin_back_end
 {
@@ -35,10 +39,15 @@ namespace children_of_devin_back_end
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
 
-            services.AddTransient<IRepository<Need>, Repository<Need>>();
-            services.AddTransient<IRepository<Person>, Repository<Person>>();
-            services.AddTransient<IRepository<Story>, Repository<Story>>();
-            services.AddTransient<IRepository<Suggestion>, Repository<Suggestion>>();
+            services.AddDbContext<ApplicationDbContext>(options => 
+                options
+                    .UseLazyLoadingProxies()
+                    .UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddTransient<NeedService>();
+            services.AddTransient<StoryService>();
+            services.AddTransient<SuggestionService>();
+            services.AddTransient<PersonService>();
             
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
@@ -47,7 +56,12 @@ namespace children_of_devin_back_end
                     .AllowAnyHeader();
             }));
 
-            services.AddControllers();
+            services
+                .AddControllers()
+                .AddNewtonsoftJson(o =>
+                {
+                    o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "children_of_devin_back_end", Version = "v1" });

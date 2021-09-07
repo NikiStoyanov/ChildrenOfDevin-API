@@ -3,33 +3,32 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using children_of_devin_back_end.Data.Models.Enums;
 
 namespace children_of_devin_back_end.Data.Models
 {
-    public class Story
+    public class Story : BaseEntity
     {
-        public Story(string authorId, int age, string town, string content, byte[] image)
+        public Story()
         {
-            this.Id = Guid.NewGuid().ToString();
+        }
 
+        public Story(string authorId, string town, string content, byte[] image)
+        {
             this.AuthorId = authorId;
-            this.Age = age;
             this.Town = town;
             this.Content = content;
             this.Image = image;
         }
 
-        public string Id { get; set; }
-
         public string AuthorId { get; set; }
 
-        public Person Author { get; set; }
-
-        [Range(1, 200)]
-        public int Age { get; set; }
+        public virtual Person Author { get; set; }
 
         [MaxLength(100)]
         public string Town { get; set; }
+
+        public StoryStatus Status { get; set; }
 
         public string Content { get; set; }
 

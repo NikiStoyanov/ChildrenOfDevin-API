@@ -14,6 +14,7 @@ namespace children_of_devin_back_end.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
+        [HttpGet]
         public ActionResult<string> Index()
         {
             var people = new List<Person>()
