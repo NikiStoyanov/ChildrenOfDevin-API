@@ -9,6 +9,8 @@ using children_of_devin_back_end.Services;
 
 namespace children_of_devin_back_end.Controllers
 {
+    [Route("[controller]/[action]")]
+    [ApiController]
     public class SuggestionsController : BaseController<Suggestion, SuggestionService>
     {
         public SuggestionsController(SuggestionService service) 
