@@ -22,13 +22,15 @@ namespace children_of_devin_back_end.Services
             this._dbSet = this._db.Set<T>();
         }
 
-        public async Task AddAsync(T element)
+        public async Task<string> AddAsync(T element)
         {
             element.CreatedOn = DateTime.UtcNow;
 
             await this._dbSet.AddAsync(element);
 
             await this._db.SaveChangesAsync();
+
+            return element.Id;
         }
 
         public async Task<T> GetAsync(string id) =>
